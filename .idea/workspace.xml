@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65c9f8fb-9e91-4e4a-a287-3ca0d18cf875" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/BotTelegram.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BotTelegram.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="65c9f8fb-9e91-4e4a-a287-3ca0d18cf875" name="Default Changelist" comment="first results">
+      <change afterPath="$PROJECT_DIR$/new.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aio_bot.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +75,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.aio_bot">
+  <component name="RunManager" selected="Python.new">
     <configuration name="aio_bot" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="BotTelegram" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -121,8 +118,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="new" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BotTelegram" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/new.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.new" />
         <item itemvalue="Python.aio_bot" />
         <item itemvalue="Python.main" />
       </list>
@@ -140,6 +159,14 @@
       <option name="presentableId" value="Default" />
       <updated>1631476353513</updated>
     </task>
+    <task id="LOCAL-00001" summary="first results">
+      <created>1631705588472</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1631705588472</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -176,6 +203,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first results" />
+    <option name="LAST_COMMIT_MESSAGE" value="first results" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/BotTelegram/.gitignore" />

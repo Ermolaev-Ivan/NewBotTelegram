@@ -1,6 +1,7 @@
 import logging
 
 from aiogram import Bot, Dispatcher, executor, types
+
 API_TOKEN = open("TOKEN.txt").read()
 
 # Configure logging
@@ -9,6 +10,7 @@ logging.basicConfig(level=logging.INFO)
 # Initialize bot and dispatcher
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
+
 
 # @dp.message_handler(commands=['start', 'help'])
 # async def send_welcome(message: types.Message):
@@ -19,19 +21,30 @@ dp = Dispatcher(bot)
 # Что бы обрабочик перехватывал все сообщения мы просто не передаем ему никаких команж
 
 
-@dp.message_handler()
-async def echo(message: types.Message, count=0, list_sportsmans = []):
-   if "+" in message.text:
-       count = count + message.text.count("+")
-       print(count)
-       print(message.from_user.username)
-   else:
-       print("-")
+@dp.message_handler(commands="get")
+async def echo(message: types.Message, count=0, list_sportsmans=[]):
+    # если сообщение содержит +
+    if "+" in message.text:
+        # проверяем ставил ли этот человек уже
+        if message.from_user.username not in list_sportsmans:
+            list_sportsmans.append(message.from_user.username)
+            count = count + message.text.count("+")
+        else:
+            pass
 
-   await message.answer(message.text)
+    elif "-" in message.text:
+
+        if message.from_user.username not in list_sportsmans:
+            pass
+        else:
+            list_sportsmans.remove(message.from_user.username)
+            count = count - message.text.count("-")
 
 
+    else:
+        print("-")
 
+    await message.answer(count)
 
 
 if __name__ == '__main__':

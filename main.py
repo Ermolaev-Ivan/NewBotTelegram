@@ -11,40 +11,34 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
-
-# @dp.message_handler(commands=['start', 'help'])
-# async def send_welcome(message: types.Message):
-#     """
-#     This handler will be called when user sends `/start` or `/help` command
-#     """
-#     await message.reply("Hi!\nI'm EchoBot!\nPowered by aiogram.")
-# Что бы обрабочик перехватывал все сообщения мы просто не передаем ему никаких команж
+count = 0
+sportsmans = []
 
 
-@dp.message_handler(commands="get")
-async def echo(message: types.Message, count=0, list_sportsmans=[]):
-    # если сообщение содержит +
-    if "+" in message.text:
-        # проверяем ставил ли этот человек уже
-        if message.from_user.username not in list_sportsmans:
-            list_sportsmans.append(message.from_user.username)
-            count = count + message.text.count("+")
-        else:
-            pass
+@dp.message_handler()
+async def echo(message: types.Message):
 
-    elif "-" in message.text:
+    # объявляем глобальными переменные
+    global count
+    global sportsmans
+    # стоит подумать над логикой работы через словари {username : количесво плюсов}
+    if message.text.find("+") != -1:
+        count = count + message.text.count("+")
+        sportsmans.append(message.from_user.username)
 
-        if message.from_user.username not in list_sportsmans:
-            pass
-        else:
-            list_sportsmans.remove(message.from_user.username)
-            count = count - message.text.count("-")
-
+    # над реализацией данного функционала стоит подумать.. - может быть и дефисом
+    # elif "-" in message.text:
+    #     if message.from_user.username not in list_sportsmans:
+    #         print("проходит 2")
+    #         pass
+    #     else:
+    #         list_sportsmans.remove(message.from_user.username)
+    #         count = count - message.text.count("-")
 
     else:
-        print("-")
-
-    await message.answer(count)
+        pass
+    if message.text == "/get":
+        await message.answer(f"На тренировку собирается {count} человек(а)")
 
 
 if __name__ == '__main__':

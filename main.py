@@ -2,6 +2,8 @@ import logging
 
 from aiogram import Bot, Dispatcher, executor, types
 
+""" две функции окончаний не абсолютные, но для наших нужд подходит"""
+
 
 def ending(el):
     num_list = [12, 13, 14, 15, 16, 17, 18, 19]
@@ -14,6 +16,13 @@ def ending(el):
         return ""
 
 
+def ending2(el):
+    if el == 1:
+        return "-го человека"
+    else:
+        return "-х человек"
+
+
 API_TOKEN = open("TOKEN.txt").read()
 
 # Configure logging
@@ -24,7 +33,7 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
 count = 0
-sportsmans = []
+sportsmans = dict()
 
 
 @dp.message_handler()
@@ -32,18 +41,26 @@ async def echo(message: types.Message):
     global count
     global sportsmans
     print(message)
-    # стоит подумать над логикой работы через словари {username : количесво плюсов}
+    # если сообщение содержит "+" то происходит магия
     if message.text.find("+") != -1:
         count = count + message.text.count("+")
-        sportsmans.append(message.from_user.last_name + " " + message.from_user.first_name)
+        name_sportsman = message.from_user.last_name + " " + message.from_user.first_name
+        # Проверка,содержится ли плюсанувший челоек уже в словаре
+        if name_sportsman in sportsmans.keys():
+            sportsmans[name_sportsman] = sportsmans[name_sportsman] + message.text.count("+")
+        else:
+            sportsmans[name_sportsman] = message.text.count("+")
     else:
         pass
+    # Команда выводящая инфу в чат
     if message.text == "/get":
-        sport = set(sportsmans)
-
         await message.answer(f"На тренировку собирается {count} человек{ending(count)}:")
-        for a in sport:
-            await message.answer(a)
+        # вывод имен людей и кол-во приходящих с ними людей
+        for key in sportsmans.keys():
+            if sportsmans[key] > 1:
+                await message.answer(f"{key} приведет с собой еще {sportsmans[key] - 1}{ending2(sportsmans[key] - 1)}")
+            else:
+                await message.answer(key)
 
 
 if __name__ == '__main__':

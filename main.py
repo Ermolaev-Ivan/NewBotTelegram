@@ -81,6 +81,5 @@ async def plusBot(message: types.Message):
     # перезаписываем глобальную переменную для работы логики сбрасыванию счетчиков
     day = datetime.datetime.now().strftime('%d')
 
-
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)

@@ -27,9 +27,13 @@ async def plusBot(message: types.Message):
     global count
     global sportsmans
     global day
+
+    # Собираем имена(ключи) спортсменов
     name_sportsman = message.from_user.last_name + " " + message.from_user.first_name
+
     # определяем в какой день сообщение отправлено
     message_day = message.date.strftime('%d')
+
     # механизм скидывания счетчика когда наступает новый день
     if message_day != day:
         count = 0
@@ -43,16 +47,17 @@ async def plusBot(message: types.Message):
             sportsmans[name_sportsman] = sportsmans[name_sportsman] + message.text.count("+")
         else:
             sportsmans[name_sportsman] = message.text.count("+")
-    # elif message.text.replace(" ", "") == "-" and name_sportsman in sportsmans.keys():
-    #     if sportsmans[name_sportsman] == 1:
-    #         sportsmans.pop(name_sportsman)
-    #     else:
-    #         sportsmans[name_sportsman] = sportsmans[name_sportsman] - 1
-
-            # r"/.*(-).*/Ug"
-            # ".*(-).*"
-
-
+    # если в сообщении находятся только знак "-" и ключ уже есть в словаре то происходит магия
+    elif "-" in message.text and name_sportsman in sportsmans.keys():
+        if message.text.count("-") == message.text.replace(" ", "").count("-"):
+            if sportsmans[name_sportsman] == 1:
+                sportsmans.pop(name_sportsman)
+                count = count - 1
+            elif sportsmans[name_sportsman] - message.text.count("-") <= 0:
+                count = count - sportsmans[name_sportsman]
+            else:
+                count = count - message.text.count("-")
+                sportsmans[name_sportsman] = sportsmans[name_sportsman] - message.text.count("-")
 
     # Команда выводящая количество идущих
     if message.text == "/get":
@@ -60,6 +65,7 @@ async def plusBot(message: types.Message):
             await message.answer("На тренировку пока никто не собирается")
         else:
             await message.answer(f"На тренировку собирается {count} человек{ending(count)}")
+
     # Команда выводящая имена людей и кол-во приходящих с ними
     elif message.text == "/who":
         if count == 0:

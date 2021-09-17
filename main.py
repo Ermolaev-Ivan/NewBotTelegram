@@ -1,29 +1,13 @@
-import logging, datetime
+import logging, datetime, configparser
+from functions import ending as ending
+from functions import ending2 as ending2
 from aiogram import Bot, Dispatcher, executor, types
 
-
-# две функции окончаний не абсолютные, но для наших нужд подходящие
-def ending(el):
-    num_list = [12, 13, 14, 15, 16, 17, 18, 19]
-    a = el % 10
-    if el in num_list:
-        return ""
-    elif a == 2 or a == 3 or a == 4:
-        return "а"
-    else:
-        return ""
-
-
-def ending2(el):
-    if el == 1:
-        return "-го человека"
-    else:
-        return "-х человек"
-
-
-# вынести это в конфиг
-API_TOKEN = open("TOKEN.txt").read()
-chat = -1001516445146
+# Settings
+config = configparser.ConfigParser()
+config.read("config.ini")
+API_TOKEN = config.get('Settings', 'token')
+CHAT = config.getint('Settings', 'id_chat')
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -32,6 +16,7 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
+# Global variables
 count = 0
 sportsmans = dict()
 day = 0
@@ -42,15 +27,15 @@ async def plusBot(message: types.Message):
     global count
     global sportsmans
     global day
-
+    # определяем в какой день сообщение отправлено
     message_day = message.date.strftime('%d')
     # механизм скидывания счетчика когда наступает новый день
     if message_day != day:
         count = 0
         sportsmans = dict()
 
-    # если сообщение содержит "+" то происходит магия
-    if message.text.find("+") != -1:
+    # если сообщение содержит "+" то происходит магия, а так же проверка чата, чтобы исключить обращения к боту в личку
+    if message.text.find("+") != -1 and message.chat.id == CHAT:
         count = count + message.text.count("+")
         name_sportsman = message.from_user.last_name + " " + message.from_user.first_name
         # Проверка,содержится ли плюсанувший челоек уже в словаре

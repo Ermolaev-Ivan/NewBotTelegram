@@ -44,15 +44,23 @@ async def plusBot(message: types.Message):
         else:
             sportsmans[name_sportsman] = message.text.count("+")
 
-    # Команда выводящая инфу в чат
+    # Команда выводящая количество идущих
     if message.text == "/get":
-        await message.answer(f"На тренировку собирается {count} человек{ending(count)}:")
-        # вывод имен людей и кол-во приходящих с ними людей
-        for key in sportsmans.keys():
-            if sportsmans[key] > 1:
-                await message.answer(f"{key} приведет с собой еще {sportsmans[key] - 1}{ending2(sportsmans[key] - 1)}")
-            else:
-                await message.answer(key)
+        if count == 0:
+            await message.answer("На тренировку пока никто не собирается")
+        else:
+            await message.answer(f"На тренировку собирается {count} человек{ending(count)}")
+    # Команда выводящая имена людей и кол-во приходящих с ними
+    elif message.text == "/who":
+        if count == 0:
+            await message.answer("На тренировку пока никто не собирается")
+        else:
+            await  message.answer("На тренировку пойдут:")
+            for key in sportsmans.keys():
+                if sportsmans[key] > 1:
+                    await message.answer(f"{key} и приведет с собой еще {sportsmans[key] - 1}{ending2(sportsmans[key] - 1)}")
+                else:
+                    await message.answer(key)
 
     # перезаписываем глобальную переменную для работы логики сбрасыванию счетчиков
     day = datetime.datetime.now().strftime('%d')

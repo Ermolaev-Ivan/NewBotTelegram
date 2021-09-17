@@ -1,10 +1,8 @@
-import logging
-
+import logging, datetime
 from aiogram import Bot, Dispatcher, executor, types
 
-""" две функции окончаний не абсолютные, но для наших нужд подходит"""
 
-
+# две функции окончаний не абсолютные, но для наших нужд подходящие
 def ending(el):
     num_list = [12, 13, 14, 15, 16, 17, 18, 19]
     a = el % 10
@@ -23,7 +21,9 @@ def ending2(el):
         return "-х человек"
 
 
+# вынести это в конфиг
 API_TOKEN = open("TOKEN.txt").read()
+chat = -1001516445146
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -34,13 +34,21 @@ dp = Dispatcher(bot)
 
 count = 0
 sportsmans = dict()
+day = 0
 
 
 @dp.message_handler()
-async def echo(message: types.Message):
+async def plusBot(message: types.Message):
     global count
     global sportsmans
-    print(message)
+    global day
+
+    message_day = message.date.strftime('%d')
+    # механизм скидывания счетчика когда наступает новый день
+    if message_day != day:
+        count = 0
+        sportsmans = dict()
+
     # если сообщение содержит "+" то происходит магия
     if message.text.find("+") != -1:
         count = count + message.text.count("+")
@@ -50,8 +58,7 @@ async def echo(message: types.Message):
             sportsmans[name_sportsman] = sportsmans[name_sportsman] + message.text.count("+")
         else:
             sportsmans[name_sportsman] = message.text.count("+")
-    else:
-        pass
+
     # Команда выводящая инфу в чат
     if message.text == "/get":
         await message.answer(f"На тренировку собирается {count} человек{ending(count)}:")
@@ -61,6 +68,9 @@ async def echo(message: types.Message):
                 await message.answer(f"{key} приведет с собой еще {sportsmans[key] - 1}{ending2(sportsmans[key] - 1)}")
             else:
                 await message.answer(key)
+
+    # перезаписываем глобальную переменную для работы логики сбрасыванию счетчиков
+    day = datetime.datetime.now().strftime('%d')
 
 
 if __name__ == '__main__':

@@ -48,7 +48,7 @@ async def plusBot(message: types.Message):
         else:
             sportsmans[name_sportsman] = message.text.count("+")
     # если в сообщении находятся только знак "-" и ключ уже есть в словаре то происходит магия
-    elif "-" in message.text and name_sportsman in sportsmans.keys():
+    elif "-" in message.text and name_sportsman in sportsmans.keys() and message.chat.id == CHAT:
         if message.text.count("-") == message.text.replace(" ", "").count("-"):
             if sportsmans[name_sportsman] == 1:
                 sportsmans.pop(name_sportsman)

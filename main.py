@@ -3,6 +3,8 @@ from functions import ending as ending
 from functions import ending2 as ending2
 from aiogram import Bot, Dispatcher, executor, types
 
+
+
 # Settings
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -27,6 +29,18 @@ async def plusBot(message: types.Message):
     global count
     global sportsmans
     global day
+
+# первая реализация, самая простая, хорошо расширяемая, но не слишком элегантная
+# нужно как то обойти тригер, а что более важно обойти ответ сообщением, который по сути и
+# отправляет кнопки в телеграмм
+#     if message.text == "/bot":
+#         keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+#         buttons = ["/who", "/get"]
+#         keyboard.add(*buttons)
+#         await message.answer("Опции", reply_markup=keyboard)
+
+    buttons = ["/who", "/get"]
+    markup = types.ReplyKeyboardMarkup().add(*buttons)
 
     # Собираем имена(ключи) спортсменов
     name_sportsman = message.from_user.last_name + " " + message.from_user.first_name
@@ -78,8 +92,11 @@ async def plusBot(message: types.Message):
                 else:
                     await message.answer(key)
 
+
+
     # перезаписываем глобальную переменную для работы логики сбрасыванию счетчиков
     day = datetime.datetime.now().strftime('%d')
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
